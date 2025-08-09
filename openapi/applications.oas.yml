@@ -9,6 +9,13 @@ paths:
     post:
       operationId: createApplications
       summary: Create a new application
+      parameters:
+        - name: X-Auth-Request-User-Id
+          in: header
+          required: false
+          schema:
+            type: number
+            format: uuid
       requestBody:
         required: true
         content:
@@ -31,15 +38,47 @@ paths:
     get:
       operationId: listApplications
       summary: List all applications
+      parameters:
+        - name: X-Auth-Request-User-Id
+          in: header
+          required: false
+          schema:
+            type: number
+            format: uuid
+        - name: pageSize
+          in: query
+          required: false 
+          schema:
+            type: number
+        - name: pageToken
+          in: query
+          required: false 
+          schema:
+            type: string
+        - name: ownerId
+          in: query
+          required: false 
+          schema:
+            type: string
+            format: uuid
+        - name: managementGroupId
+          in: query
+          required: false 
+          schema:
+            type: string
+            format: uuid
+        - name: name
+          in: query
+          required: false 
+          schema:
+            type: string
       responses:
         '200':
           description: A list of applications
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Application'
+                $ref: '#/components/schemas/ApplicationPage'
         '400':
           description: Bad request
           content:
@@ -51,6 +90,12 @@ paths:
       operationId: getApplications
       summary: Get an application by key
       parameters:
+        - name: X-Auth-Request-User-Id
+          in: header
+          required: false
+          schema:
+            type: number
+            format: uuid
         - name: applicationKey
           in: path
           required: true
@@ -73,6 +118,12 @@ paths:
       operationId: updateApplications
       summary: Update an application
       parameters:
+        - name: X-Auth-Request-User-Id
+          in: header
+          required: false
+          schema:
+            type: number
+            format: uuid
         - name: applicationKey
           in: path
           required: true
@@ -107,6 +158,12 @@ paths:
       operationId: deleteApplications
       summary: Delete an application
       parameters:
+        - name: X-Auth-Request-User-Id
+          in: header
+          required: false
+          schema:
+            type: number
+            format: uuid
         - name: applicationKey
           in: path
           required: true
@@ -161,6 +218,15 @@ components:
         - applicationKey
         - name
         - ownerId
+    ApplicationPage:
+      type: object
+      properties:
+        data:
+          type: array 
+          items:
+            $ref: '#/components/schemas/Application'
+        next:
+          type: string
     ApplicationForPatch:
       type: object
       properties:

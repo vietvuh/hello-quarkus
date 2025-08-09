@@ -32,38 +32,10 @@ class ApplicationForPatchTest {
                 .updatedFields(List.of("name")).build());
     }
 
-    private Application createApplication() {
-        var name = UUID.randomUUID().toString().split("-")[0];
-        var key = UUID.randomUUID().toString().split("-")[0];
-        return Application
-                .builder()
-                .applicationKey(key)
-                .name(name)
-                .ownerId(UUID.randomUUID().toString())
-                .managementGroupId(UUID.randomUUID().toString())
-                .createdAt(System.currentTimeMillis())
-                .createdBy(UUID.randomUUID().toString())
-                .updatedAt(System.currentTimeMillis())
-                .createdBy(UUID.randomUUID().toString())
-                .build();
-    }
-
-    private ApplicationForPatch.ApplicationPatchData createApplicationPatchData() {
-        var name = UUID.randomUUID().toString().split("-")[0];
-        return ApplicationForPatch
-                .ApplicationPatchData
-                .builder()
-                .name(name)
-                .description(UUID.randomUUID().toString())
-                .managementGroupId(UUID.randomUUID().toString())
-                .ownerId(UUID.randomUUID().toString())
-                .build();
-    }
-
     @Test
     void patch_withName_patchApplication() {
-        var data = createApplicationPatchData();
-        var app = createApplication();
+        var data = ApplicationCreator.createApplicationPatchData();
+        var app = ApplicationCreator.createApplication();
         var patch = ApplicationForPatch
                 .builder()
                 .updatedFields(List.of("name"))
@@ -78,8 +50,8 @@ class ApplicationForPatchTest {
 
     @Test
     void patch_withDescription_patchApplication() {
-        var data = createApplicationPatchData();
-        var app = createApplication();
+        var data = ApplicationCreator.createApplicationPatchData();
+        var app = ApplicationCreator.createApplication();
         var patch = ApplicationForPatch
                 .builder()
                 .updatedFields(List.of("name", "description"))
@@ -94,8 +66,8 @@ class ApplicationForPatchTest {
 
     @Test
     void patch_withManagementGroupId_patchApplication() {
-        var data = createApplicationPatchData();
-        var app = createApplication();
+        var data = ApplicationCreator.createApplicationPatchData();
+        var app = ApplicationCreator.createApplication();
         var patch = ApplicationForPatch
                 .builder()
                 .updatedFields(List.of("managementGroupId", "ownerId"))
@@ -112,8 +84,8 @@ class ApplicationForPatchTest {
 
     @Test
     void patch_withOwnerId_patchApplication() {
-        var data = createApplicationPatchData();
-        var app = createApplication();
+        var data = ApplicationCreator.createApplicationPatchData();
+        var app = ApplicationCreator.createApplication();
         var patch = ApplicationForPatch
                 .builder()
                 .updatedFields(List.of("name", "ownerId"))

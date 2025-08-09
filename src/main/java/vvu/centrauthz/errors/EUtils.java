@@ -12,6 +12,10 @@ public class EUtils {
         return new NotFoundError("NOT_FOUND", message);
     }
 
+    public static ConflictError createConflictError(String message) {
+        return new ConflictError("CONFLICT", message);
+    }
+
     public static BadRequestError createBadRequestError(String message) {
         return new BadRequestError(message);
     }

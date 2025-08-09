@@ -1,0 +1,9 @@
+quarkus:
+  http:
+    port: 3000        # HTTP port (default is 3000)
+    test-port: 8081   # Port used during testing
+  hibernate-validator:
+    fail-fast: false  # Validate all fields, not just first error
+    method-validation:
+      allow-overriding-parameter-constraints: true
+      allow-parameter-constraints-on-parallel-methods: true

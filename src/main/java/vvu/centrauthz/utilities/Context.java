@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Builder;
 import vvu.centrauthz.models.User;
 
+import java.util.UUID;
 import java.util.function.Function;
 
 @Builder(toBuilder = true)
@@ -16,7 +17,7 @@ public record Context(User user, String token, JsonNode attributes) {
         return Context.builder().user(user).build();
     }
 
-    public static Context of(String userId) {
+    public static Context of(UUID userId) {
         User user = User.builder().userId(userId).build();
         return Context.builder().user(user).build();
     }

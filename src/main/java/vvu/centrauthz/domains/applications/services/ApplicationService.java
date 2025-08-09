@@ -4,8 +4,10 @@ import jakarta.inject.Singleton;
 import vvu.centrauthz.domains.applications.models.Application;
 import vvu.centrauthz.domains.applications.models.ApplicationFilter;
 import vvu.centrauthz.domains.applications.models.ApplicationForPatch;
+import vvu.centrauthz.domains.applications.models.ApplicationPatcher;
 import vvu.centrauthz.errors.NotImplementedError;
 import vvu.centrauthz.models.Page;
+import vvu.centrauthz.models.Patcher;
 import vvu.centrauthz.utilities.Context;
 
 @Singleton
@@ -26,7 +28,7 @@ public class ApplicationService {
         throw new NotImplementedError("Feature not implemented");
     }
 
-    public void update(String applicationKey, ApplicationForPatch applicationForPatch, Context context) {
+    public void update(String applicationKey, Patcher<ApplicationPatcher> applicationForPatch, Context context) {
         throw new NotImplementedError("Feature not implemented");
     }
 

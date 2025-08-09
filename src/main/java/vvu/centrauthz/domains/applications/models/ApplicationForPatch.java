@@ -4,10 +4,10 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
-import org.hibernate.validator.constraints.UUID;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * ApplicationForPatch record for partial updates of applications.
@@ -64,11 +64,9 @@ public record ApplicationForPatch(
 
             String description,
 
-            @UUID
-            String ownerId,
+            UUID ownerId,
 
-            @UUID
-            String managementGroupId
+            UUID managementGroupId
     ) {
     }
 }
