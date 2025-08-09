@@ -7,7 +7,7 @@ servers:
 paths:
   /applications:
     post:
-      operationId: createApplications
+      operationId: createApplication
       summary: Create a new application
       parameters:
         - name: X-Auth-Request-User-Id
@@ -87,7 +87,7 @@ paths:
                 $ref: '#/components/schemas/Error'
   /applications/{applicationKey}:
     get:
-      operationId: getApplications
+      operationId: getApplication
       summary: Get an application by key
       parameters:
         - name: X-Auth-Request-User-Id
@@ -115,7 +115,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
     put:
-      operationId: updateApplications
+      operationId: updateApplication
       summary: Update an application
       parameters:
         - name: X-Auth-Request-User-Id
@@ -155,7 +155,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
     delete:
-      operationId: deleteApplications
+      operationId: deleteApplication
       summary: Delete an application
       parameters:
         - name: X-Auth-Request-User-Id
@@ -227,10 +227,10 @@ components:
             $ref: '#/components/schemas/Application'
         next:
           type: string
-    ApplicationForPatch:
+    ApplicationPatcher:
       type: object
       properties:
-        updatedFields:
+        fields:
           type: array
           items:
             type: string
