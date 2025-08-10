@@ -1,9 +1,21 @@
 quarkus:
   http:
-    port: 3000        # HTTP port (default is 3000)
-    test-port: 8081   # Port used during testing
+    port: 3000
+    test-port: 8081
   hibernate-validator:
-    fail-fast: false  # Validate all fields, not just first error
+    fail-fast: false
     method-validation:
       allow-overriding-parameter-constraints: true
       allow-parameter-constraints-on-parallel-methods: true
+  datasource:
+    db-kind: postgresql
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    jdbc:
+      url: jdbc:postgresql://localhost:5432/mydb
+
+  hibernate-orm:
+    database:
+      generation: validate
+    log:
+      sql: false

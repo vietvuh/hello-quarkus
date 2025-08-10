@@ -3,6 +3,7 @@ package vvu.centrauthz.domains.applications.models;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Builder;
 
 import java.util.UUID;
@@ -15,10 +16,12 @@ import java.util.UUID;
 public record Application(
         @NotNull
         @NotBlank
+        @Size(min = 3, max = 128)
         String applicationKey,
 
         @NotNull
         @NotBlank
+        @Size(min = 3, max = 255)
         String name,
 
         String description,
