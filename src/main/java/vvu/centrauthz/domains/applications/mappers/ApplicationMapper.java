@@ -53,7 +53,6 @@ public interface ApplicationMapper {
      */
     @Mapping(target = "createdAt", source = "createdAt", qualifiedByName = "toInstant")
     @Mapping(target = "updatedAt", source = "updatedAt", qualifiedByName = "toInstant")
-    @Mapping(target = "id", ignore = true) // Ignore ID as it's managed by the entity
     ApplicationEntity toEntity(Application dto);
 
     /**
@@ -64,7 +63,6 @@ public interface ApplicationMapper {
      */
     @Mapping(target = "createdAt", source = "createdAt", qualifiedByName = "toInstant")
     @Mapping(target = "updatedAt", source = "updatedAt", qualifiedByName = "toInstant")
-    @Mapping(target = "id", ignore = true) // Ignore ID as it's managed by the entity
     @Mapping(target = "applicationKey", ignore = true) // Application key should not be updated
     void updateEntity(Application dto, @MappingTarget ApplicationEntity entity);
 

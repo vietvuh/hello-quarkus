@@ -2,6 +2,9 @@ package vvu.centrauthz.errors;
 
 import vvu.centrauthz.models.Error;
 
+/**
+ * BadRequestError.
+ */
 public class BadRequestError extends AppError {
     public BadRequestError(String code, String message) {
         super(code, message);

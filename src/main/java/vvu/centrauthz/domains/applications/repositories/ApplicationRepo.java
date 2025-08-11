@@ -1,14 +1,12 @@
 package vvu.centrauthz.domains.applications.repositories;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
-import io.quarkus.panache.common.Sort;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.LockModeType;
-import vvu.centrauthz.domains.applications.entities.ApplicationEntity;
-import vvu.centrauthz.domains.applications.models.ApplicationFilter;
-
 import java.util.List;
 import java.util.Optional;
+import vvu.centrauthz.domains.applications.entities.ApplicationEntity;
+import vvu.centrauthz.domains.applications.models.ApplicationFilter;
 
 /**
  * Repository for managing ApplicationEntity persistence operations.
@@ -18,7 +16,12 @@ public class ApplicationRepo implements PanacheRepository<ApplicationEntity> {
 
     private static final String APPLICATION_KEY = "applicationKey";
 
-
+    /**
+     * Query applications matching the specified filter criteria.
+     *
+     * @param filter the search and pagination criteria
+     * @return list of matching application entities
+     */
     public List<ApplicationEntity> query(ApplicationFilter filter) {
         return List.of();
     }

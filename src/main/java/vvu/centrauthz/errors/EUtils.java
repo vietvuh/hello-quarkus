@@ -1,7 +1,7 @@
 package vvu.centrauthz.errors;
 
 /**
- * Error Utilities
+ * Error Utilities.
  */
 public class EUtils {
     EUtils() {

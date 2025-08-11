@@ -1,5 +1,8 @@
 package vvu.centrauthz.errors;
 
+/**
+ * ConflictError.
+ */
 public class ConflictError extends AppError {
     public ConflictError(String code, String message) {
         super(code, message);

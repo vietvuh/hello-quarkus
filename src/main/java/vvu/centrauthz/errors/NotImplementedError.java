@@ -1,6 +1,10 @@
 package vvu.centrauthz.errors;
+
 import vvu.centrauthz.models.Error;
 
+/**
+ * Not Implemented Error.
+ */
 public class NotImplementedError extends AppError {
     public NotImplementedError(Error e) {
         super(e);

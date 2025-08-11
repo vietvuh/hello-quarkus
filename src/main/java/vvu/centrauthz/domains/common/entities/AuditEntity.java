@@ -5,11 +5,10 @@ import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.time.Instant;
 import java.util.UUID;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Base entity class that includes audit fields (createdAt, createdBy, updatedAt, updatedBy).
@@ -50,28 +49,5 @@ public abstract class AuditEntity {
     protected void onUpdate() {
         this.updatedAt = Instant.now();
     }
-    
-    /**
-     * Sets the user who created the entity.
-     * This method should be called when creating a new entity.
-     * 
-     * @param userId the ID of the user who created the entity
-     */
-    public void setCreatedByUser(UUID userId) {
-        this.createdBy = userId;
-        // For new entities, also set updatedBy
-        if (this.updatedBy == null) {
-            this.updatedBy = userId;
-        }
-    }
-    
-    /**
-     * Sets the user who last updated the entity.
-     * This method should be called when updating an existing entity.
-     * 
-     * @param userId the ID of the user who updated the entity
-     */
-    public void setUpdatedByUser(UUID userId) {
-        this.updatedBy = userId;
-    }
+
 }

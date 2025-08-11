@@ -1,6 +1,10 @@
 package vvu.centrauthz.errors;
+
 import vvu.centrauthz.models.Error;
 
+/**
+ * Illegal Json Value.
+ */
 public class IllegalJsonValue extends AppError {
     public IllegalJsonValue(Error e) {
         super(e);

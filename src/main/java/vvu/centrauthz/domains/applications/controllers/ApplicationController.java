@@ -4,22 +4,20 @@ import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import java.util.Objects;
+import java.util.UUID;
 import vvu.centrauthz.domains.applications.models.Application;
 import vvu.centrauthz.domains.applications.models.ApplicationFilter;
 import vvu.centrauthz.domains.applications.models.ApplicationPatcher;
 import vvu.centrauthz.domains.applications.services.ApplicationService;
+import vvu.centrauthz.domains.common.models.Sort;
 import vvu.centrauthz.errors.EUtils;
 import vvu.centrauthz.models.Patcher;
 import vvu.centrauthz.utilities.Context;
 
-import java.util.Objects;
-import java.util.UUID;
-
 /**
- * REST Controller for Application management
+ * REST Controller for Application management.
  * Generated from OpenAPI specification: applications.oas.yml
- * 
- * All endpoints return HTTP 503 Service Unavailable as per requirements
  */
 @Path("/v0/applications")
 @Produces(MediaType.APPLICATION_JSON)
@@ -28,12 +26,18 @@ public class ApplicationController {
 
     private final ApplicationService service;
 
+    /**
+     * Application Controller.
+     *
+     * @param service Application Service.
+     *
+     */
     public ApplicationController(ApplicationService service) {
         this.service = service;
     }
 
     /**
-     * Create a new application
+     * Create a new application.
      * POST /v0/applications
      *
      * @param userId the ID of the user making the request
@@ -63,6 +67,7 @@ public class ApplicationController {
      * @param ownerId filter applications by the owner's UUID
      * @param managementGroupId filter applications by the management group's UUID
      * @param name filter applications by application name
+     * @param sortOrder sort direction
      * @return HTTP 200 OK with a list of applications
      */
     @GET
@@ -72,16 +77,23 @@ public class ApplicationController {
             @QueryParam("pageToken") String pageToken,
             @QueryParam("ownerId") UUID ownerId,
             @QueryParam("managementGroupId") UUID managementGroupId,
-            @QueryParam("name") String name) {
+            @QueryParam("name") String name,
+            @QueryParam("sort") String sortOrder) {
 
-        var filter = ApplicationFilter
-            .builder()
-            .pageSize(pageSize)
-            .pageToken(pageToken)
-            .ownerId(ownerId)
-            .name(name)
-            .managementGroupId(managementGroupId)
-            .build();
+        var builder = ApplicationFilter
+                .builder()
+                .pageSize(pageSize)
+                .pageToken(pageToken)
+                .ownerId(ownerId)
+                .name(name)
+                .managementGroupId(managementGroupId);
+
+        if (Objects.nonNull(sortOrder)) {
+            builder.sortOrder(Sort.list(sortOrder));
+        }
+
+        var filter = builder.build();
+
         return Context
                 .of(userId)
                 .execute(context -> Response
@@ -126,7 +138,8 @@ public class ApplicationController {
     public Response updateApplication(
             @HeaderParam("X-Auth-Request-User-Id") UUID userId,
             @PathParam("applicationKey") String applicationKey,
-            Application application) {
+            @QueryParam("force") Boolean force,
+            @Valid Application application) {
 
         if (!Objects.equals(applicationKey, application.applicationKey())) {
             throw EUtils.createBadRequestError("Application Key Mismatch");
@@ -135,7 +148,7 @@ public class ApplicationController {
         return Context
                 .of(userId)
                 .execute(context -> {
-                    service.update(applicationKey, application, context);
+                    service.update(applicationKey, application, force, context);
                     return Response
                             .noContent()
                             .build();
@@ -156,11 +169,11 @@ public class ApplicationController {
     public Response patchApplication(
             @HeaderParam("X-Auth-Request-User-Id") java.util.UUID userId,
             @PathParam("applicationKey") String applicationKey,
-            Patcher<ApplicationPatcher> patcher) {
+            @Valid Patcher<ApplicationPatcher> patcher) {
         return Context
                 .of(userId)
                 .execute(context -> {
-                    service.update(applicationKey, patcher, context);
+                    service.patch(applicationKey, patcher, context);
                     return Response
                             .noContent()
                             .build();

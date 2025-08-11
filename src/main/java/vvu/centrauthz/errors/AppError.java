@@ -10,11 +10,21 @@ import vvu.centrauthz.models.Error;
 public class AppError extends RuntimeException {
     private final Error error;
 
+    /**
+     * Constructor with Error.
+     *
+     * @param error error
+     */
     public AppError(Error error) {
         super(error.message());
         this.error = error;
     }
 
+    /**
+     * Constructor with code.
+     *
+     * @param code Error Code
+     */
     public AppError(String code) {
         super(code);
         this.error = Error.builder()
@@ -22,6 +32,12 @@ public class AppError extends RuntimeException {
             .build();
     }
 
+    /**
+     * Constructor with code and exception.
+     *
+     * @param code Error Code
+     * @param e Throwable
+     */
     public AppError(String code, Throwable e) {
         super(e);
         this.error = Error.builder()
@@ -30,6 +46,12 @@ public class AppError extends RuntimeException {
             .build();
     }
 
+    /**
+     * Constructor with code and message.
+     *
+     * @param code Error Code
+     * @param message error message
+     */
     public AppError(String code, String message) {
         super(message);
         this.error = Error.builder()

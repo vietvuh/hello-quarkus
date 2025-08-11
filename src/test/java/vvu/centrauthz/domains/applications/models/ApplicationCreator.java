@@ -13,36 +13,14 @@ public class ApplicationCreator {
             .builder()
             .applicationKey(key)
             .name(name)
+            .description(UUID.randomUUID().toString())
             .ownerId(UUID.randomUUID())
             .managementGroupId(UUID.randomUUID())
             .createdAt(System.currentTimeMillis())
             .createdBy(UUID.randomUUID())
             .updatedAt(System.currentTimeMillis())
-            .createdBy(UUID.randomUUID())
+            .updatedBy(UUID.randomUUID())
             .build();
-    }
-
-    public static ApplicationForPatch.ApplicationPatchData createApplicationPatchData() {
-        var name = UUID.randomUUID().toString().split("-")[0];
-        return ApplicationForPatch
-            .ApplicationPatchData
-            .builder()
-            .name(name)
-            .description(UUID.randomUUID().toString())
-            .managementGroupId(UUID.randomUUID())
-            .ownerId(UUID.randomUUID())
-            .build();
-    }
-
-    public static ApplicationForPatch createApplicationPatcher(ApplicationForPatch.ApplicationPatchData data) {
-        return ApplicationForPatch.builder()
-                .updatedFields(List.of("name"))
-                .data(data)
-                .build();
-    }
-
-    public static ApplicationForPatch createApplicationForPatch() {
-        return createApplicationPatcher(createApplicationPatchData());
     }
 
     public static Page<Application, String> createAppPage() {

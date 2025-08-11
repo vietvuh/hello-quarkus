@@ -14,12 +14,12 @@ import java.util.Map;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Builder(toBuilder = true)
 public record Error(
-    @NotNull
-    @NotBlank
-    String code,
-    
-    String message,
-    
-    Map<String, String> details
+        @NotNull
+        @NotBlank
+        String code,
+
+        String message,
+
+        Map<String, String> details
 ) {
 }
