@@ -1,5 +1,7 @@
 package vvu.centrauthz.domains.applications.mappers;
 
+import java.time.Instant;
+import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -7,11 +9,6 @@ import org.mapstruct.Named;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import vvu.centrauthz.domains.applications.entities.ApplicationEntity;
 import vvu.centrauthz.domains.applications.models.Application;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
-import java.time.Instant;
 
 /**
  * Mapper for converting between Application and ApplicationEntity.
@@ -42,7 +39,7 @@ public interface ApplicationMapper {
         }
         return entities.stream()
                 .map(this::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**

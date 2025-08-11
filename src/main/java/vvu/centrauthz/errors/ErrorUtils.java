@@ -3,8 +3,8 @@ package vvu.centrauthz.errors;
 /**
  * Error Utilities.
  */
-public class EUtils {
-    EUtils() {
+public class ErrorUtils {
+    ErrorUtils() {
         throw new IllegalStateException();
     }
 

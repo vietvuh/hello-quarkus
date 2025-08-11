@@ -13,7 +13,7 @@ import lombok.Builder;
  * @param next the token for retrieving the next page
  */
 @Builder(toBuilder = true)
-public record Page<T,N>(List<T> data, N next) {
+public record Page<T, N>(List<T> data, N next) {
 
     /**
      * Compact constructor that validates required fields.

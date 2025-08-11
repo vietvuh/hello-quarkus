@@ -11,7 +11,7 @@ import vvu.centrauthz.domains.applications.models.ApplicationFilter;
 import vvu.centrauthz.domains.applications.models.ApplicationPatcher;
 import vvu.centrauthz.domains.applications.services.ApplicationService;
 import vvu.centrauthz.domains.common.models.Sort;
-import vvu.centrauthz.errors.EUtils;
+import vvu.centrauthz.errors.ErrorUtils;
 import vvu.centrauthz.models.Patcher;
 import vvu.centrauthz.utilities.Context;
 
@@ -142,7 +142,7 @@ public class ApplicationController {
             @Valid Application application) {
 
         if (!Objects.equals(applicationKey, application.applicationKey())) {
-            throw EUtils.createBadRequestError("Application Key Mismatch");
+            throw ErrorUtils.createBadRequestError("Application Key Mismatch");
         }
 
         return Context

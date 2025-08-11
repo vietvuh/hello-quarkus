@@ -11,7 +11,7 @@ import vvu.centrauthz.domains.applications.models.Application;
 import vvu.centrauthz.domains.applications.models.ApplicationFilter;
 import vvu.centrauthz.domains.applications.models.ApplicationPatcher;
 import vvu.centrauthz.domains.applications.repositories.ApplicationRepo;
-import vvu.centrauthz.errors.EUtils;
+import vvu.centrauthz.errors.ErrorUtils;
 import vvu.centrauthz.errors.NotImplementedError;
 import vvu.centrauthz.models.Page;
 import vvu.centrauthz.models.Patcher;
@@ -71,14 +71,14 @@ public class ApplicationService {
     public Application get(String applicationKey, Context context) {
         var e = this.repo
                 .findByKey(applicationKey)
-                .orElseThrow(() -> EUtils.createNotFoundError(applicationKey + "is not found"));
+                .orElseThrow(() -> ErrorUtils.createNotFoundError(applicationKey + "is not found"));
         return mapper.toDto(e);
     }
 
     private void lockKey(String applicationKey,
                          Consumer<ApplicationEntity> consumer) {
         lockKey(applicationKey, consumer, () -> {
-            throw EUtils.createNotFoundError(applicationKey + " is not found");
+            throw ErrorUtils.createNotFoundError(applicationKey + " is not found");
         });
     }
 
@@ -130,7 +130,7 @@ public class ApplicationService {
             e.setUpdatedAt(Instant.ofEpochMilli(System.currentTimeMillis()));
         }, () -> {
             if (!Boolean.TRUE.equals(force)) {
-                throw EUtils.createNotFoundError(applicationKey + " is not found");
+                throw ErrorUtils.createNotFoundError(applicationKey + " is not found");
             }
             this.create(application, context);
             return null;

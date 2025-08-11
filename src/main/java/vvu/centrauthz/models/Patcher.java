@@ -14,7 +14,7 @@ import lombok.Builder;
  * @param data the patch data containing new values
  */
 @Builder(toBuilder = true)
-public record Patcher<T> (@NotNull List<String> fields, @NotNull T data) {
+public record Patcher<T>(@NotNull List<String> fields, @NotNull T data) {
 
     /**
      * Compact constructor that validates required fields.

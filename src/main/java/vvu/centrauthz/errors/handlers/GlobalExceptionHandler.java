@@ -141,7 +141,7 @@ public class GlobalExceptionHandler {
      * Handle ArcUndeclaredThrowableException.
      */
     @ServerExceptionMapper
-    public RestResponse<Error> handleArcUndeclaredThrowableException(ArcUndeclaredThrowableException ex) {
+    public RestResponse<Error> handleArcException(ArcUndeclaredThrowableException ex) {
         return processPersistenceException(ex);
     }
 }

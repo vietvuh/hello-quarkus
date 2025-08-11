@@ -24,7 +24,6 @@ import vvu.centrauthz.domains.common.entities.AuditEntity;
 @Table(name = "application")
 public class ApplicationEntity extends AuditEntity {
 
-    // Getters and Setters
     @Id
     @Column(name = "application_key", nullable = false, length = 255)
     @NotBlank(message = "Application key cannot be blank")
@@ -45,36 +44,58 @@ public class ApplicationEntity extends AuditEntity {
     @Column(name = "management_group_id", columnDefinition = "UUID")
     private UUID managementGroupId;
 
-    // Audit fields are now inherited from AuditEntity
-
-    // Constructors
     public ApplicationEntity() {
         super();
     }
 
-    // Equals and HashCode
+
+    /**
+     * Compares this application entity to the specified object.
+     */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
         ApplicationEntity that = (ApplicationEntity) o;
         return Objects.equals(applicationKey, that.applicationKey);
     }
 
+    /**
+     * Returns a hash code value for this application entity.
+     *
+     * <p>The hash code is computed based solely on the application key,
+     * ensuring that two objects with the same application key have the
+     * same hash code.</p>
+     *
+     * @return the hash code value for this entity
+     */
     @Override
     public int hashCode() {
         return Objects.hash(applicationKey);
     }
 
-    // toString
-    @SuppressWarnings("checkstyle:OperatorWrap")
+    /**
+     * Returns a string representation of the ApplicationEntity.
+     *
+     * <p>This method generates a string that includes the application key,
+     * name, owner ID, and management group ID, providing a concise summary
+     * of the entity's key properties.</p>
+     *
+     * @return a string representation of the ApplicationEntity
+     */
     @Override
     public String toString() {
-        return "ApplicationEntity{" +
-            "applicationKey='" + applicationKey + '\'' +
-            ", name='" + name + '\'' +
-            ", ownerId=" + ownerId +
-            ", managementGroupId=" + managementGroupId +
-            '}';
+        return "ApplicationEntity{"
+                + "applicationKey='" + applicationKey + '\''
+                + ", name='" + name + '\''
+                + ", ownerId=" + ownerId
+                + ", managementGroupId=" + managementGroupId
+                + '}';
     }
 }
