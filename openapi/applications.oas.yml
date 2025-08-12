@@ -1,0 +1,267 @@
+openapi: 3.1.0
+info:
+  title: Application Service API
+  version: 1.0.0
+servers:
+  - url: /v0
+paths:
+  /applications:
+    post:
+      operationId: createApplication
+      summary: Create a new application
+      parameters:
+        - name: X-Auth-Request-User-Id
+          in: header
+          required: false
+          schema:
+            type: number
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Application'
+      responses:
+        '201':
+          description: Application created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Application'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    get:
+      operationId: listApplications
+      summary: List all applications
+      parameters:
+        - name: X-Auth-Request-User-Id
+          in: header
+          required: false
+          schema:
+            type: number
+            format: uuid
+        - name: pageSize
+          in: query
+          required: false 
+          schema:
+            type: number
+        - name: pageToken
+          in: query
+          required: false 
+          schema:
+            type: string
+        - name: ownerId
+          in: query
+          required: false 
+          schema:
+            type: string
+            format: uuid
+        - name: managementGroupId
+          in: query
+          required: false 
+          schema:
+            type: string
+            format: uuid
+        - name: name
+          in: query
+          required: false 
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of applications
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationPage'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /applications/{applicationKey}:
+    get:
+      operationId: getApplication
+      summary: Get an application by key
+      parameters:
+        - name: X-Auth-Request-User-Id
+          in: header
+          required: false
+          schema:
+            type: number
+            format: uuid
+        - name: applicationKey
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: An application object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Application'
+        '404':
+          description: Application not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      operationId: updateApplication
+      summary: Update an application
+      parameters:
+        - name: X-Auth-Request-User-Id
+          in: header
+          required: false
+          schema:
+            type: number
+            format: uuid
+        - name: applicationKey
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApplicationForPatch'
+      responses:
+        '200':
+          description: Application updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Application'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Application not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      operationId: deleteApplication
+      summary: Delete an application
+      parameters:
+        - name: X-Auth-Request-User-Id
+          in: header
+          required: false
+          schema:
+            type: number
+            format: uuid
+        - name: applicationKey
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Application deleted
+        '404':
+          description: Application not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Application:
+      type: object
+      properties:
+        applicationKey:
+          type: string
+          description: Unique key for the application
+        name:
+          type: string
+          description: Name of the application
+        description:
+          type: string
+          description: Description of the application
+        ownerId:
+          type: string
+          format: uuid
+          description: Owner of the application
+        managementGroupId:
+          type: string
+          format: uuid
+          description: Group of users who have permission to manage this application
+        createdAt:
+          type: number
+          format: int64
+          description: Creation timestamp in epoch time
+        createdBy:
+          type: string
+          format: uuid
+        updatedAt:
+          type: number
+          format: int64
+          description: Last update timestamp in epoch time
+        updatedBy:
+          type: string
+          format: uuid
+      required:
+        - applicationKey
+        - name
+        - ownerId
+    ApplicationPage:
+      type: object
+      properties:
+        data:
+          type: array 
+          items:
+            $ref: '#/components/schemas/Application'
+        next:
+          type: string
+    ApplicationPatcher:
+      type: object
+      properties:
+        fields:
+          type: array
+          items:
+            type: string
+        data:
+          type: object
+          properties:
+            name:
+              type: string
+              description: Name of the application
+            description:
+              type: string
+              description: Description of the application
+            ownerId:
+              type: string
+              format: uuid
+              description: Owner of the application
+            managementGroupId:
+              type: string
+              format: uuid
+              description: Group of users who have permission to manage this application
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+          additionalProperties:
+            type: string
+      required:
+        - code
+

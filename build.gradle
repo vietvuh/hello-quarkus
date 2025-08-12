@@ -1,0 +1,89 @@
+plugins {
+    id 'java'
+    id 'io.quarkus'
+    id 'io.freefair.lombok' version '8.6'
+    id 'checkstyle'
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+// Checkstyle configuration
+checkstyle {
+    toolVersion = '11.0.0'
+    configFile = file("${rootDir}/src/main/resources/checkstyle/google_checks.xml")
+    ignoreFailures = false
+    maxWarnings = 0
+    maxErrors = 0
+}
+
+// Configure Checkstyle tasks
+tasks.withType(Checkstyle) {
+    reports {
+        xml.required = true
+        html.required = true
+        html.outputLocation = file("$buildDir/reports/checkstyle/main.html")
+    }
+}
+
+checkstyleTest.enabled = false
+check.dependsOn checkstyleMain
+
+// Fix the Quarkus task dependencies
+compileJava {
+    dependsOn compileQuarkusGeneratedSourcesJava
+    options.encoding = 'UTF-8'
+    options.compilerArgs << '-parameters'
+}
+
+// Also fix checkstyle to depend on Quarkus generated sources
+checkstyleMain {
+    exclude '**/quarkus-generated-sources/**'
+    exclude '**/grpc/**'
+}
+
+dependencies {
+    implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
+    implementation 'io.quarkus:quarkus-hibernate-validator'
+    implementation 'io.quarkus:quarkus-smallrye-openapi'
+    implementation 'io.quarkus:quarkus-rest-jackson'
+    implementation 'io.quarkus:quarkus-arc'
+    implementation 'io.quarkus:quarkus-rest'
+    implementation("io.quarkus:quarkus-config-yaml")
+    // Hibernate ORM with Panache
+    implementation 'io.quarkus:quarkus-hibernate-orm-panache'
+    // Database driver (choose one based on your database)
+    implementation 'io.quarkus:quarkus-jdbc-postgresql'  // for PostgreSQL
+    // Mapstruct
+    implementation 'org.mapstruct:mapstruct:1.6.3'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
+
+    // Lombok dependencies
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+    
+    testImplementation 'io.quarkus:quarkus-junit5'
+    testImplementation 'io.quarkus:quarkus-junit5-mockito'
+    testImplementation 'io.rest-assured:rest-assured'
+
+}
+
+group = 'vvu.centrauthz'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+test {
+    systemProperty "java.util.logging.manager", "org.jboss.logmanager.LogManager"
+}
+
+compileTestJava {
+    options.encoding = 'UTF-8'
+}
